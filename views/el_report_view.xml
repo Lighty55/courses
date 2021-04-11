@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<odoo>
+    <record id="el_report_view_graph" model="ir.ui.view">
+        <field name="name">el_report_view_graph</field>
+        <field name="model">el.report</field>
+        <field name="arch" type="xml">
+            <graph string="Course Report" stacked="False">
+                <field name="count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="el_report_view_search" model="ir.ui.view">
+        <field name="name">el_report_view_search</field>
+        <field name="model">el.report</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Course Report">
+                <field name="instructor_id"/>
+                <field name="room_id"/>
+                <field name="name"/>
+                <field name="type"/>
+                <group expand="1" string="Group By">
+                    <filter string="Instructor" name='instructor' context="{'group_by':'instructor_id'}"/>
+                    <filter string="Room" name="room" context="{'group_by':'room_id'}"/>
+                    <filter string="Course" name="course" context="{'group_by':'name'}"/>
+                    <filter name="type" context="{'group_by':'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="el_report_action_analysis" model="ir.actions.act_window">
+        <field name="name">Course Analysis</field>
+        <field name="res_model">el.report</field>
+        <field name="view_mode">graph</field>
+        <field name="search_view_id" ref="el_report_view_search"/>
+        <field name="context">{'group_by': ['name', 'type']}</field>
+    </record>
+    <menuitem id="report_menu" name="Report" parent="main_courses_menu"/>
+    <menuitem id="course_report_menu" name="Course Analysis" parent="report_menu" action="el_report_action_analysis"/>
+
+</odoo>

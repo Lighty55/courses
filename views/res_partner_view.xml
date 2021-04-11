@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<odoo>
+    <record model="ir.ui.view" id="res_partner_instructor_form_view">
+        <field name="name">res_partner_instructor_form_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']" position="before">
+                <page string="Instructor">
+                    <group>
+                        <field name="is_instructor"/>
+                        <field name="lesson_ids" attrs="{'invisible' : [('is_instructor', '!=', True)]}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="res_partner_instructor_search_view">
+        <field name="name">res_partner_instructor_search_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <filter string="Instructors" name="instructor" domain="[('is_instructor', '=', True)]"/>
+            </filter>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="contact_list_action">
+        <field name="name">Instructors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="res_partner_instructor_search_view"/>
+        <field name="context">{"search_default_instructor": 1}</field>
+    </record>
+
+    <menuitem id="instructor_menu" name="Instructors" parent="main_courses_menu" action="contact_list_action"/>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<odoo>
+    <record model="ir.ui.view" id="course_room_form_view">
+        <field name="name">course_room_form_view</field>
+        <field name="model">el.course.room</field>
+        <field name="arch" type="xml">
+            <form string="Course">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Room"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group colspan="2" col="2">
+                        <group>
+                            <field name="seats"/>
+                            <field name="country_id"/>
+                            <field name="state_id" domain="[('country_id', '=', country_id)]"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="course_room_tree_view">
+        <field name="name">course_room_tree_view</field>
+        <field name="model">el.course.room</field>
+        <field name="arch" type="xml">
+            <tree string="Room List">
+                <field name="name"/>
+                <field name="seats"/>
+                <field name="country_id"/>
+                <field name="state_id"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="course_room_list_action">
+        <field name="name">Rooms</field>
+        <field name="res_model">el.course.room</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create room for e-learning course</p>
+        </field>
+    </record>
+
+    <menuitem id="course_room_menu" name="Rooms" parent="main_courses_menu" action="course_room_list_action"/>
+</odoo>

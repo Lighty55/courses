@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<odoo>
+    <record model="ir.ui.view" id="lesson_tree_view">
+        <field name="name">lesson_tree_view</field>
+        <field name="model">el.course.lessons</field>
+        <field name="arch" type="xml">
+            <tree string="Lesson">
+                <field name="name"/>
+                <field name="course_id"/>
+                <field name="room_id"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="lesson_form_view">
+        <field name="name">lesson_form_view</field>
+        <field name="model">el.course.lessons</field>
+        <field name="arch" type="xml">
+            <form string="Lesson">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Lesson"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group colspan="2" col="2">
+                        <group string="General">
+                            <field name="course_id"/>
+                            <field name="room_id" force_save="1"/>
+                            <field name="instructor_id" force_save="1"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="lesson_view_search" model="ir.ui.view">
+        <field name="name">lesson_view_search</field>
+        <field name="model">el.course.lessons</field>
+        <field name="priority">32</field>
+        <field name="arch" type="xml">
+            <search string="Lessons">
+                <field name="instructor_id"/>
+                <field name="room_id"/>
+                <field name="course_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Instructor" name='instructor' context="{'group_by':'instructor_id'}"/>
+                    <filter string="Room" name="room" context="{'group_by':'room_id'}"/>
+                    <filter string="Course" name="course" context="{'group_by':'course_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="lesson_list_action">
+        <field name="name">Lessons</field>
+        <field name="res_model">el.course.lessons</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="lesson_view_search"/>
+        <field name="context">{'search_default_course': 1}</field>
+    </record>
+
+    <menuitem id="lesson_menu" name="Lessons" parent="main_courses_menu" action="lesson_list_action"/>
+</odoo>
